@@ -7,17 +7,27 @@
 #include <clocale>
 using namespace std;
 
-vector<double> input(int a, const char* b)
+ofstream fout ("Истинный возраст.txt");
+
+vector<double> input(int n, const char* text)
 {
-	cout << b << endl;
+	cout << text << endl;
+
 	vector<double> output;
+
 	double c = 0;
-	for (int i = 0; i < a; i++)
+	for (int i = 0; i < n; i++)
 	{
 		cout << "[" << i << "]: ";
 		cin >> c;
 		output.push_back(c);
 	}
+
+	fout << text;
+	for (double elem : output)
+		fout << elem << ", ";
+	
+	fout << endl;
 
 	cout << endl;
 
@@ -50,6 +60,8 @@ double ist_vozr(vector<double> dolya, vector<double>T, double tc, int stad)
 	{
 		ist_vozr -= T[i] * dolya[i];
 	}
+
+	fout << "Истинный возраст заболевания "<< stad <<"-й стадией: " << ist_vozr << endl;
 
 	return ist_vozr;
 }
@@ -85,21 +97,23 @@ int main()
 
 	bool start = true;
 
-	ofstream fout;
-
 	vector<double> dolya1 = { 0 };
 	vector<double> dolya = { 0 }; //массив долей стадий
 	vector<double> t = { 0 }; //массив времени прохождения стадии
 	vector<double> tau = { 0 }; //массив времени пребывания на стадии
 	vector<double> T1 = { 0 }, T0 = { 0 }; //временные сдвиги
 	double i_vozr0, i_vozr1; //истинные возраста стадий
+	double tc; //Средний возраст
 
 	while (start) {
-		cout << "Введите средний возраст заболеваемости глаукомой по России: ";
-		double tc; //Средний возраст 
+
+		cout << "Введите средний возраст заболеваемости глаукомой по России: "; 
 		cin >> tc;
 
-		dolya = input(5, "Введите доли для стадий (включая нулевую): ");
+		//Вывод в файл
+		fout << "Средний возраст заболеваемости глаукомой по России: " << tc << endl;
+
+		dolya = input(5, "Доли для стадий (включая нулевую): ");
 
 		for (int i = 1; i < 5; i++)
 		{
@@ -127,26 +141,16 @@ int main()
 		bool choice;
 		cin >> choice;
 
-		if(!choice)
+		if (!choice)
 		{
 			start = false;
 		}
 
 		cout << endl << "---" << endl;
-
-	}
-
-	fout.open("result.txt");
-
-	fout << i_vozr0 << endl;
-	fout << i_vozr1 << endl;
-
-	for (double elem : t)
-	{
-		fout << elem << " ";
+		fout << "---" << endl;
 	}
 
 	fout.close();
-
+	
 	return 0;
 }
