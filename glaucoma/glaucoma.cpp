@@ -67,30 +67,6 @@ double ist_vozr(vector<double> dolya, vector<double>T, double tc, int stad)
 }
 
 
-double find_svns(float i_vozr, vector<double> t, vector<double> tau)
-{
-	double svns = 0;
-	
-	cout << "Введите номер стадии, на которой найден пациент: ";
-	
-	int n; //номер стадии
-	
-	cin >> n;
-
-	double tproh = 0; //время прохода
-
-	for (int i = 0; i < n; i++)
-	{
-		tproh += t[i];
-	}
-
-	double tn = i_vozr + tproh + tau[n - 1]; //время наступления стадии без лечения
-
-
-	return svns;
-}
-
-
 int main()
 {
 	setlocale(0, "");
